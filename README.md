@@ -17,7 +17,7 @@
 - [ ] создание executable jar файла
 
 **Стэк технологий:**
-Spring Boot
-Spring Data
-Swagger
-Postgress
+- Spring Boot
+- Spring Data
+- Swagger
+- Postgress
