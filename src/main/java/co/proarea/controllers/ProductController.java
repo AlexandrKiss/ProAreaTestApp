@@ -6,19 +6,22 @@ import co.proarea.models.ProductUnit;
 import co.proarea.pdf.Invoice;
 import co.proarea.pdf.models.InvoiceRow;
 import co.proarea.services.ProductService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.annotation.security.RolesAllowed;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/product/")
+@Api(value="onlinestore", description="Operations pertaining to products in Online Store")
 @Slf4j
 public class ProductController {
 
@@ -28,8 +31,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RolesAllowed("ROLE_ADMIN")
+    @Secured("ROLE_ADMIN")
     @PostMapping("unit/add")
+    @ApiOperation(value = "Add a product unit (ROLE_ADMIN)",response = ProductUnitDTO.class)
     public ProductUnitDTO addProductUnit(@RequestBody ProductUnitDTO productUnitDTO){
         try {
             return productService.addProductUnit(productUnitDTO);
@@ -39,9 +43,10 @@ public class ProductController {
         }
     }
 
-    @RolesAllowed("ROLE_ADMIN")
-    @PostMapping("unit/update")
-    public ProductUnitDTO updateProduct(@RequestBody ProductUnitDTO productUnitDTO){
+    @Secured("ROLE_ADMIN")
+    @PutMapping("unit/update")
+    @ApiOperation(value = "Update a product unit (ROLE_ADMIN)",response = ProductUnitDTO.class)
+    public ProductUnitDTO updateProductUnit(@RequestBody ProductUnitDTO productUnitDTO){
         try {
             return productService.updateProductUnit(productUnitDTO);
         } catch (IllegalArgumentException iae) {
@@ -53,7 +58,8 @@ public class ProductController {
         }
     }
 
-    @PostMapping("unit/{ean}")
+    @GetMapping("unit/{ean}")
+    @ApiOperation(value = "Search a product unit with an EAN (ROLE_ADMIN, ROLE_USER)",response = ProductUnit.class)
     public ProductUnit getProductUnit(@PathVariable("ean") long ean){
         try {
             return productService.getProductUnit(ean);
@@ -63,17 +69,24 @@ public class ProductController {
         }
     }
 
-    @PostMapping("unit/list")
+    @GetMapping("unit/list")
+    @ApiOperation(value = "Get a list of available product units (ROLE_ADMIN, ROLE_USER)",
+            response = ProductUnit.class,
+            responseContainer = "List")
     public List<ProductUnit> getUnitList(){
         return productService.getAllProductUnit();
     }
 
-    @PostMapping("unit/list/{ean}")
+    @GetMapping("unit/list/{ean}")
+    @ApiOperation(value = "Get a list of ProductUnit by Product (ROLE_ADMIN, ROLE_USER)",
+            response = ProductUnit.class,
+            responseContainer = "List")
     public List<ProductUnit> getUnitListByProduct(@PathVariable("ean") Long ean){
         return productService.getAllProductUnitByProduct(ean);
     }
 
-    @PostMapping("unit/invoice")
+    @GetMapping("unit/invoice")
+    @ApiOperation(value = "Get invoice in PDF format (ROLE_ADMIN, ROLE_USER)",response = ResponseEntity.class)
     public ResponseEntity<byte[]> newInvoice(@RequestBody ArrayList<InvoiceRow> invoiceRows) throws IOException {
         try {
             Invoice invoice = new Invoice(productService, invoiceRows);
@@ -84,7 +97,8 @@ public class ProductController {
         }
     }
 
-    @PostMapping("group/{ean}")
+    @GetMapping("group/{ean}")
+    @ApiOperation(value = "Search a product with an EAN (ROLE_ADMIN, ROLE_USER)",response = Product.class)
     public Product getProduct(@PathVariable("ean") long ean){
         try {
             return productService.getProduct(ean);

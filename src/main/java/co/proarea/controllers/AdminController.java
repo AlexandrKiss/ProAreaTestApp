@@ -1,7 +1,9 @@
 package co.proarea.controllers;
 
 import co.proarea.dto.AdminUserDTO;
+import co.proarea.dto.ProductUnitDTO;
 import co.proarea.services.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +27,7 @@ public class AdminController {
     }
 
     @GetMapping(value = "{id}")
+    @ApiOperation(value = "(ROLE_ADMIN)",response = AdminUserDTO.class)
     public AdminUserDTO getUserById(@PathVariable(name = "id") Long id) {
         try {
             return AdminUserDTO.fromUser(userService.getUserById(id));

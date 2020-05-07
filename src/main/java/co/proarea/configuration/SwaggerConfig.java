@@ -38,7 +38,11 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .apis(RequestHandlerSelectors.basePackage("co.proarea.controllers"))
                 .paths(PathSelectors.any())
                 .build()
-                .securityContexts(Lists.newArrayList(securityContext()))
+                .securityContexts(Lists.newArrayList(
+                        securityContext(PRODUCT_INCLUDE_PATTERN),
+                        securityContext(ADMIN_INCLUDE_PATTERN),
+                        securityContext(USER_INCLUDE_PATTERN)
+                ))
                 .securitySchemes(Lists.newArrayList(apiKey()))
                 .apiInfo(metaData());
     }
@@ -65,12 +69,10 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
         return new ApiKey("JWT", AUTHORIZATION_HEADER, "header");
     }
 
-    private SecurityContext securityContext() {
+    private SecurityContext securityContext(String pattern) {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex(PRODUCT_INCLUDE_PATTERN))
-//                .forPaths(PathSelectors.regex(ADMIN_INCLUDE_PATTERN))
-//                .forPaths(PathSelectors.regex(USER_INCLUDE_PATTERN))
+                .forPaths(PathSelectors.regex(pattern))
                 .build();
     }
 
