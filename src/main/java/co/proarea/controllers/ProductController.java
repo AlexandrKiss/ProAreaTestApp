@@ -36,9 +36,6 @@ public class ProductController {
         } catch (IllegalArgumentException iae) {
             throw new ResponseStatusException(
                     HttpStatus.FOUND, "Product Unit EAN '" + productUnitDTO.getEan() + "' already exists");
-        } catch (NullPointerException npe) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "No Product with EAN: '" + productUnitDTO.getProduct() + "'");
         }
     }
 

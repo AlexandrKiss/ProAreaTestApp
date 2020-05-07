@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Data @AllArgsConstructor @NoArgsConstructor
 public class User extends BaseEntity {
 
+    @NotEmpty
     @Column(name = "username")
     private String username;
 
@@ -24,9 +26,11 @@ public class User extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
+    @NotEmpty
     @Column(name = "email")
     private String email;
 
+    @NotEmpty
     @Column(name = "password")
     private String password;
 

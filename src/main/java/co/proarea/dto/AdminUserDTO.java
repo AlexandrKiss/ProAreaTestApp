@@ -5,10 +5,14 @@ import lombok.Data;
 import co.proarea.models.Status;
 import co.proarea.models.User;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AdminUserDTO {
+    @NotNull
     private Long id;
+    @NotNull
     private String username;
     private String firstName;
     private String lastName;

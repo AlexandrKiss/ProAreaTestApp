@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,10 @@ public class Product {
     private Long id;
 
     @Getter @Setter
+    @NotNull (message = "Name cannot be null")
     private String name;
     @Getter @Setter
+    @NotNull (message = "EAN cannot be null")
     private long ean;
 
     @JsonBackReference

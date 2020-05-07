@@ -1,11 +1,14 @@
 package co.proarea.controllers;
 
 import co.proarea.dto.AuthenticationRequestDTO;
+import co.proarea.dto.UserDTO;
 import co.proarea.models.User;
 import co.proarea.security.jwt.JwtTokenProvider;
 import co.proarea.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +60,17 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");
+        }
+    }
+
+    @PostMapping(value = "register")
+    public UserDTO registerUser(@RequestBody User user){
+        try {
+            return UserDTO.fromUser(userService.register(user));
+        } catch (IllegalArgumentException iae) {
+            throw new ResponseStatusException(
+                    HttpStatus.FOUND, "User name '" + user.getUsername() + "'" +
+                    " or User email '"+user.getEmail()+"' already exists");
         }
     }
 }

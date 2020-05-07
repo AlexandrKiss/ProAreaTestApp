@@ -12,13 +12,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
-@EnableGlobalMethodSecurity(jsr250Enabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
 
+    private static final String HOME = "/";
     private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
     private static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
+    private static final String REGISTER_ENDPOINT = "/api/v1/user/register";
+    private static final String SWAGGER_API_ENDPOINT = "/v2/api-docs";
+    private static final String SWAGGER_UI_ENDPOINT = "/swagger-ui.html";
+    private static final String SWAGGER_RES_ENDPOINT = "/swagger-resources/**";
+    private static final String SWAGGER_JSON_ENDPOINT = "/swagger.json";
+    private static final String SWAGGER_WJ_ENDPOINT = "/webjars/**";
 
     @Autowired
     public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
@@ -38,11 +45,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers(LOGIN_ENDPOINT).permitAll()
-                .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
-                .anyRequest().authenticated()
+                    .authorizeRequests()
+                    .antMatchers(HOME,LOGIN_ENDPOINT,REGISTER_ENDPOINT,
+                            SWAGGER_API_ENDPOINT,
+                            SWAGGER_UI_ENDPOINT,
+                            SWAGGER_RES_ENDPOINT,
+                            SWAGGER_JSON_ENDPOINT,
+                            SWAGGER_WJ_ENDPOINT)
+                    .permitAll()
+                    .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
+                    .anyRequest().authenticated()
                 .and()
-                .apply(new JwtConfigurer(jwtTokenProvider));
+                    .apply(new JwtConfigurer(jwtTokenProvider));
     }
 }
