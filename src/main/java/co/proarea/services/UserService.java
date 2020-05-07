@@ -2,6 +2,7 @@ package co.proarea.services;
 
 import co.proarea.dto.UserDTO;
 import co.proarea.models.Role;
+import co.proarea.models.Status;
 import co.proarea.models.User;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface UserService {
     User getByUsername(String username);
 
     User getUserById(Long id);
+
+    User setStatus(Long id, Status status);
 
     void deleteUser(Long id);
 }

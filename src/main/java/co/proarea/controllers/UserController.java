@@ -18,17 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @PostMapping(value = "register")
-//    public UserDTO registerUser(@RequestBody User user){
-//        try {
-//            return UserDTO.fromUser(userService.register(user));
-//        } catch (IllegalArgumentException iae) {
-//            throw new ResponseStatusException(
-//                    HttpStatus.FOUND, "User name '" + user.getUsername() + "'" +
-//                    " or User email '"+user.getEmail()+"' already exists");
-//        }
-//    }
-
     @PostMapping(value = "{id}")
     public UserDTO getUserById(@PathVariable(name = "id") Long id){
         try {

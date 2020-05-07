@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
             throw new NullPointerException();
         }
         log.info("IN update - User: {} successfully updated", user);
+        userRepository.save(user);
         return user;
     }
 
@@ -108,5 +109,25 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
         log.info("IN delete - user with id: {} successfully deleted", id);
+    }
+
+    @Override
+    @Transactional
+    public User setStatus(Long id, Status status) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            log.warn("IN setStatus - no User found by ID: {}", id);
+            throw new NullPointerException();
+        }
+        for (Role role: user.getRoles()) {
+            if (role.getName().equals("ROLE_ADMIN")) {
+                log.warn("IN setStatus - Administrator status cannot be changed");
+                throw new IllegalArgumentException();
+            }
+        }
+        user.setStatus(status);
+        log.info("IN setStatus - User: {} status successfully changed", user);
+        userRepository.save(user);
+        return user;
     }
 }
