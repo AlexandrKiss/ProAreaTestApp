@@ -24,7 +24,7 @@ public class AppConfig {
     Role userRole = new Role("ROLE_USER");
     Role adminRole = new Role("ROLE_ADMIN");
 
-    User admin = new User("admin","Admin","Admin", "admin@mail.com","admin");
+    User admin = new User("admin","Admin","Admin", "al.kisurin@gmail.com","admin");
     User user = new User("user","FirstName","LastName", "user@mail.com","user");
 
     @Bean

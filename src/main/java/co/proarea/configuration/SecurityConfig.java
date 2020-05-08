@@ -19,7 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String HOME = "/";
     private static final String ADMIN_ENDPOINT = "/api/v1/admin/**";
-    private static final String LOGIN_ENDPOINT = "/api/v1/auth/login";
+    private static final String LOGIN_ENDPOINT = "/api/v1/auth/**";
     private static final String REGISTER_ENDPOINT = "/api/v1/user/register";
     private static final String SWAGGER_API_ENDPOINT = "/v2/api-docs";
     private static final String SWAGGER_UI_ENDPOINT = "/swagger-ui.html";
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                             SWAGGER_RES_ENDPOINT,
                             SWAGGER_JSON_ENDPOINT,
                             SWAGGER_WJ_ENDPOINT)
-                    .permitAll()
+                        .permitAll()
                     .antMatchers(ADMIN_ENDPOINT).hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()

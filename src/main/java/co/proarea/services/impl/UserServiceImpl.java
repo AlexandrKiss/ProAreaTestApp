@@ -1,6 +1,8 @@
 package co.proarea.services.impl;
 
 import co.proarea.dto.UserDTO;
+import co.proarea.security.jwt.JwtAuthenticationException;
+import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import co.proarea.models.Role;
 import co.proarea.models.Status;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -129,5 +132,55 @@ public class UserServiceImpl implements UserService {
         log.info("IN setStatus - User: {} status successfully changed", user);
         userRepository.save(user);
         return user;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            log.warn("IN setStatus - no User found by email: {}", email);
+            throw new NullPointerException();
+        }
+        return user;
+    }
+
+    @Override
+    public String createEmailToken(User user) {
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        claims.put("email", user.getEmail());
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + 3600000);
+
+        return Jwts.builder()//
+                .setClaims(claims)//
+                .setIssuedAt(now)//
+                .setExpiration(validity)//
+                .signWith(SignatureAlgorithm.HS256, "reset")//
+                .compact();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User validateEmailToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey("reset").parseClaimsJws(token);
+
+            if (claims.getBody().getExpiration().before(new Date())) {
+                throw new IllegalArgumentException();
+            }
+            return userRepository.findByUsername(claims.getBody().getSubject());
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid");
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean updatePassword(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return true;
     }
 }

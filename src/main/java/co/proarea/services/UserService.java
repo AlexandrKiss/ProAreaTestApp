@@ -23,5 +23,13 @@ public interface UserService {
 
     User setStatus(Long id, Status status);
 
+    User getByEmail(String email);
+
+    String createEmailToken(User user);
+
+    User validateEmailToken(String token);
+
+    boolean updatePassword(User user);
+
     void deleteUser(Long id);
 }
