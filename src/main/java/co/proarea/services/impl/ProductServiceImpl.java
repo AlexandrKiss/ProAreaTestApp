@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 @Slf4j
+
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductUnitRepository productUnitRepository;
@@ -25,7 +26,6 @@ public class ProductServiceImpl implements ProductService {
 
     //Product Service
     @Override
-    @Transactional
     public Product addProduct(Product product){
         long ean = product.getEan();
         if (productRepository.findByEan(ean) != null) {
@@ -37,7 +37,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Product> getAllProduct() {
         List<Product> result = productRepository.findAll();
         log.info("IN getAllProduct - {} products found", result.size());
@@ -45,7 +44,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Product getProduct(long ean){
         Product result = productRepository.findByEan(ean);
         if(result == null) {
@@ -58,7 +56,6 @@ public class ProductServiceImpl implements ProductService {
 
     //ProductUnit Service
     @Override
-    @Transactional
     public ProductUnitDTO addProductUnit(ProductUnitDTO productUnitDTO){
         long ean = productUnitDTO.getEan();
         if (productUnitRepository.findByEan(ean) != null) {
@@ -73,7 +70,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<ProductUnit> getAllProductUnit() {
         List<ProductUnit> result = productUnitRepository.findAll();
         log.info("IN getAllProductUnit - {} product units found", result.size());
@@ -81,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public ProductUnit getProductUnit(long ean){
         ProductUnit result = productUnitRepository.findByEan(ean);
         if(result == null) {
@@ -93,7 +89,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<ProductUnit> getAllProductUnitByProduct(long ean){
         Product product = productRepository.findByEan(ean);
         if(product == null) {
@@ -106,7 +101,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public ProductUnitDTO updateProductUnit(ProductUnitDTO productUnitDTO){
         ProductUnit productUnit = productUnitRepository.findByEan(productUnitDTO.getEan());
         if (productUnit == null) {
@@ -118,7 +112,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
     public boolean deleteProductUnit(long ean){
         ProductUnit result = productUnitRepository.findByEan(ean);
         if (result == null) {

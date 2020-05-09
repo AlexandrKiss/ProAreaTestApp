@@ -1,11 +1,12 @@
 package co.proarea.controllers;
 
 import co.proarea.dto.ProductUnitDTO;
+import co.proarea.models.InvoiceRow;
 import co.proarea.models.Product;
 import co.proarea.models.ProductUnit;
 import co.proarea.pdf.Invoice;
-import co.proarea.pdf.models.InvoiceRow;
 import co.proarea.services.ProductService;
+import co.proarea.services.StorageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -86,7 +87,7 @@ public class ProductController {
     }
 
     @GetMapping("unit/invoice")
-    @ApiOperation(value = "Get invoice in PDF format (ROLE_ADMIN, ROLE_USER)",response = ResponseEntity.class)
+    @ApiOperation(value = "Get invoice in PDF format (ROLE_ADMIN, ROLE_USER)", response = ResponseEntity.class)
     public ResponseEntity<byte[]> newInvoice(@RequestBody ArrayList<InvoiceRow> invoiceRows) throws IOException {
         try {
             Invoice invoice = new Invoice(productService, invoiceRows);
@@ -107,4 +108,6 @@ public class ProductController {
                     HttpStatus.NOT_FOUND, "No Product with EAN: '" + ean + "'");
         }
     }
+
+
 }

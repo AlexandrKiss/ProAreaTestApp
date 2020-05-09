@@ -1,8 +1,12 @@
 package co.proarea.configuration;
 
 import co.proarea.dto.ProductUnitDTO;
-import co.proarea.models.*;
+import co.proarea.models.Product;
+import co.proarea.models.ProductUnit;
+import co.proarea.models.Role;
+import co.proarea.models.User;
 import co.proarea.services.ProductService;
+import co.proarea.services.StorageService;
 import co.proarea.services.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

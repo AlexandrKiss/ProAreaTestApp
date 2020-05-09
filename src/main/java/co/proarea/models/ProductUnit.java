@@ -1,38 +1,35 @@
 package co.proarea.models;
 
 import co.proarea.dto.ProductUnitDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@ToString @NoArgsConstructor
+@Data
+@NoArgsConstructor
 public class ProductUnit {
     @Id
     @GeneratedValue
     private Long id;
 
-    @Getter @Setter
     private String name;
 
-    @Getter @Setter
     private long ean;
 
-    @Getter @Setter
     private double price;
 
     @JsonManagedReference
     @ManyToOne
-    @Getter @Setter
     private Product product;
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "productUnit")
+    private List<DBFile> dbFiles = new ArrayList<>();
 
     public ProductUnit(String name, long ean, double price, Product product) {
         this.name = name;

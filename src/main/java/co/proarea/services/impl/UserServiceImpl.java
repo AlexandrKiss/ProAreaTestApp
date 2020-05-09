@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<User> getAllUser() {
         List<User> result = userRepository.findAll();
         log.info("IN getAll - {} users found", result.size());
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public User getByUsername(String username) {
         User result = userRepository.findByUsername(username);
         log.info("IN findByUsername - user: {} found by username: {}", result, username);
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public User getUserById(Long id) {
         User result = userRepository.findById(id).orElse(null);
         if (result == null) {
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public User getByEmail(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null) {

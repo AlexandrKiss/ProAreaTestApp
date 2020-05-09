@@ -27,6 +27,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String PRODUCT_INCLUDE_PATTERN = "/api/v1/product/.*";
+    public static final String FILE_INCLUDE_PATTERN = "/api/v1/file/.*";
     public static final String ADMIN_INCLUDE_PATTERN = "/api/v1/admin/.*";
     public static final String USER_INCLUDE_PATTERN = "/api/v1/user/.*";
 
@@ -40,6 +41,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .build()
                 .securityContexts(Lists.newArrayList(
                         securityContext(PRODUCT_INCLUDE_PATTERN),
+                        securityContext(FILE_INCLUDE_PATTERN),
                         securityContext(ADMIN_INCLUDE_PATTERN),
                         securityContext(USER_INCLUDE_PATTERN)
                 ))

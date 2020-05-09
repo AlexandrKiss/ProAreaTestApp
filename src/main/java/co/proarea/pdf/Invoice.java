@@ -1,7 +1,7 @@
 package co.proarea.pdf;
 
 import co.proarea.models.ProductUnit;
-import co.proarea.pdf.models.InvoiceRow;
+import co.proarea.models.InvoiceRow;
 import co.proarea.services.ProductService;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageData;
