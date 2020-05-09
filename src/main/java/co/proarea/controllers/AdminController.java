@@ -25,25 +25,25 @@ public class AdminController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "{id}")
+    @GetMapping(value = "{userName}")
     @ApiOperation(value = "(ROLE_ADMIN)",response = AdminUserDTO.class)
-    public AdminUserDTO getUserById(@PathVariable(name = "id") Long id) {
+    public AdminUserDTO getUserById(@PathVariable(name = "userName") String userName) {
         try {
-            return AdminUserDTO.fromUser(userService.getUserById(id));
+            return AdminUserDTO.fromUser(userService.getByUsername(userName));
         } catch (NullPointerException npe) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "No User with ID: '" + id + "'");
+                    HttpStatus.NOT_FOUND, "No User with Name: '" + userName + "'");
         }
     }
 
-    @PutMapping(value = "banned/{id}")
-    @ApiOperation(value = "(ROLE_ADMIN)",response = UserDTO.class)
-    public UserDTO bannedUser(@PathVariable(name = "id") Long id) {
+    @PutMapping(value = "status/{userName}")
+    @ApiOperation(value = "ACTIVE, DELETED, BANNED (ROLE_ADMIN)",response = UserDTO.class)
+    public UserDTO setStatus(@PathVariable(name = "userName") String userName, @RequestParam("status") Status status) {
         try {
-            return UserDTO.fromUser(userService.setStatus(id, Status.BANNED));
+            return UserDTO.fromUser(userService.setStatus(userName, status));
         } catch (NullPointerException npe) {
             throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "No User with ID: '" + id + "'");
+                    HttpStatus.NOT_FOUND, "No User with Name: '" + userName + "'");
         } catch (IllegalArgumentException iae) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Cannot banned administrator");

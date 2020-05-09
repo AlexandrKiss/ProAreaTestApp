@@ -1,5 +1,6 @@
 package co.proarea.models;
 
+import co.proarea.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,5 +48,11 @@ public class User extends BaseEntity {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public void fromUserDTO(UserDTO userDTO) {
+        this.setFirstName(userDTO.getFirstName());
+        this.setLastName(userDTO.getLastName());
+        this.setEmail(userDTO.getEmail());
     }
 }

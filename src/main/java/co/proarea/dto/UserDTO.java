@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDTO {
-    @NotNull
-    private Long id;
+//    @NotNull
+//    private Long id;
     @NotNull
     private String username;
     private String firstName;
@@ -20,7 +20,6 @@ public class UserDTO {
 
     public User toUser(){
         User user = new User();
-        user.setId(id);
         user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -31,7 +30,6 @@ public class UserDTO {
 
     public static UserDTO fromUser(User user) {
         UserDTO userDto = new UserDTO();
-        userDto.setId(user.getId());
         userDto.setUsername(user.getUsername());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());

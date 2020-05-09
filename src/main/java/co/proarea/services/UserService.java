@@ -21,7 +21,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    User setStatus(Long id, Status status);
+    User setStatus(String userName, Status status);
 
     User getByEmail(String email);
 

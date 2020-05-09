@@ -11,6 +11,7 @@ import co.proarea.repositories.RoleRepository;
 import co.proarea.repositories.UserRepository;
 import co.proarea.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,13 +69,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @PreAuthorize("#userDTO.getUsername().equals(authentication.getName()) or hasRole('ROLE_ADMIN')")  // or hasRole('ROLE_ADMIN')
     public User update(UserDTO userDTO){
-        User user = userRepository.findById(userDTO.getId()).orElse(null);
+        User user = userRepository.findByUsername(userDTO.getUsername());
         if (user == null) {
-            log.warn("IN update - no User found by ID: {}", userDTO.getId());
+            log.warn("IN update - no User found by User Name: {}", userDTO.getUsername());
             throw new NullPointerException();
         }
+        user.fromUserDTO(userDTO);
         log.info("IN update - User: {} successfully updated", user);
         userRepository.save(user);
         return user;
@@ -116,10 +118,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User setStatus(Long id, Status status) {
-        User user = userRepository.findById(id).orElse(null);
+    public User setStatus(String userName, Status status) {
+        User user = userRepository.findByUsername(userName);
         if (user == null) {
-            log.warn("IN setStatus - no User found by ID: {}", id);
+            log.warn("IN setStatus - no User found by Name: {}", userName);
             throw new NullPointerException();
         }
         for (Role role: user.getRoles()) {

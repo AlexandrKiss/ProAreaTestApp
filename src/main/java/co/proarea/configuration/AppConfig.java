@@ -30,6 +30,7 @@ public class AppConfig {
 
     User admin = new User("admin","Admin","Admin", "al.kisurin@gmail.com","admin");
     User user = new User("user","FirstName","LastName", "user@mail.com","user");
+    User user2 = new User("user2","FirstName2","LastName2", "user2@mail.com","user");
 
     @Bean
     public CommandLineRunner demo(final ProductService productUnitService, final ProductService productService,
@@ -50,6 +51,7 @@ public class AppConfig {
 
                 userService.register(admin);
                 userService.register(user);
+                userService.register(user2);
             }
         };
     }
