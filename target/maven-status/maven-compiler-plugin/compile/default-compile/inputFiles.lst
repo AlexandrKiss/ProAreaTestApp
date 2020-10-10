@@ -18,6 +18,7 @@ G:\JavaProject\ProAreaStore\src\main\java\co\proarea\dto\AuthenticationRequestDT
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\security\JwtUserDetailsService.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\services\exception\StorageException.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\security\jwt\JwtConfigurer.java
+G:\JavaProject\ProAreaStore\src\main\java\co\proarea\security\JwtAuthenticationEntryPoint.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\models\Role.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\configuration\EmailConfig.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\repositories\RoleRepository.java
@@ -38,6 +39,7 @@ G:\JavaProject\ProAreaStore\src\main\java\co\proarea\models\ProductUnit.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\dto\UserDTO.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\configuration\AppConfig.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\dto\AdminUserDTO.java
+G:\JavaProject\ProAreaStore\src\main\java\co\proarea\security\JwtAccessDeniedHandler.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\models\BaseEntity.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\models\DBFile.java
 G:\JavaProject\ProAreaStore\src\main\java\co\proarea\dto\ProductUnitDTO.java
