@@ -1,1 +1,0 @@
-java -jar ProAreaStore-1.0-SNAPSHOT-spring-boot.jar
