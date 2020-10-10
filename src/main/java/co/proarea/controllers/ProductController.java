@@ -4,6 +4,7 @@ import co.proarea.dto.ProductUnitDTO;
 import co.proarea.models.InvoiceRow;
 import co.proarea.models.Product;
 import co.proarea.models.ProductUnit;
+import co.proarea.models.User;
 import co.proarea.pdf.Invoice;
 import co.proarea.services.ProductService;
 import co.proarea.services.StorageService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class ProductController {
 
     @Secured("ROLE_ADMIN")
     @PostMapping("unit/add")
-    @ApiOperation(value = "Add a product unit (ROLE_ADMIN)",response = ProductUnitDTO.class)
+    @ApiOperation(value = "Add a product unit (ROLE_ADMIN)", response = ProductUnitDTO.class)
     public ProductUnitDTO addProductUnit(@RequestBody ProductUnitDTO productUnitDTO){
         try {
             return productService.addProductUnit(productUnitDTO);
@@ -108,6 +110,4 @@ public class ProductController {
                     HttpStatus.NOT_FOUND, "No Product with EAN: '" + ean + "'");
         }
     }
-
-
 }

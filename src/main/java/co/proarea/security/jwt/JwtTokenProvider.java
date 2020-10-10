@@ -2,6 +2,7 @@ package co.proarea.security.jwt;
 
 import co.proarea.models.Role;
 import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
+@Slf4j
 public class JwtTokenProvider {
 
     @Value("${jwt.token.secret}")
@@ -81,8 +83,10 @@ public class JwtTokenProvider {
 
             return !claims.getBody().getExpiration().before(new Date());
         } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtAuthenticationException("JWT token is expired or invalid");
+            log.info(e.getMessage());
+//            throw new JwtAuthenticationException("JWT token is expired or invalid", e);
         }
+        return false;
     }
 
     private List<String> getRoleNames(List<Role> userRoles) {
