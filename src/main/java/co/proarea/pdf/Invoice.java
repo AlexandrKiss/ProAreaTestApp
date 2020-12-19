@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,12 +71,23 @@ public class Invoice {
         float [] pointColumnWidths = {100F, 100F};
         Table table = new Table(pointColumnWidths);
 
-        List<String> cellVal = List.of(
-                "Order Date:",formatForDateNow.format(dateNow),
-                "Order Number:","1",
-                "Restaurant Name:","Atwater",
-                "Address:","1500 Av Atwater",
-                "City:","Montreal");
+        List<String> cellVal = new ArrayList<>();
+        cellVal.add("Order Date:");
+        cellVal.add(formatForDateNow.format(dateNow));
+        cellVal.add("Order Number:");
+        cellVal.add("1");
+        cellVal.add("Restaurant Name:");
+        cellVal.add("Atwater");
+        cellVal.add("Address:");
+        cellVal.add("1500 Av Atwater");
+        cellVal.add( "City:");
+        cellVal.add("Montreal");
+//                List.of(
+//                "Order Date:",formatForDateNow.format(dateNow),
+//                "Order Number:","1",
+//                "Restaurant Name:","Atwater",
+//                "Address:","1500 Av Atwater",
+//                "City:","Montreal");
         for(String s: cellVal) {
             Cell cell = new Cell();
             cell.add(s)
